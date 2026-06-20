@@ -27,6 +27,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}   # Reason: auto-provided token, no secret to manage.
 
+      - name: Lowercase the owner name
+        run: echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_ENV"
+
       - name: Build & push (multi-arch)
         uses: docker/build-push-action@v6
         with:
