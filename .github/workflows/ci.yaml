@@ -18,7 +18,7 @@ jobs:
       - name: Install deps & test    # Reason: the "I" in CI — integrate only if tests pass.
         run: |
           pip install -r requirements.txt
-          cd app && pytest -q
+          pytest -q
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
