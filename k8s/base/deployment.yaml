@@ -4,7 +4,7 @@ metadata:
   name: sre-lab-app
   labels: { app: sre-lab-app }
 spec:
-  replicas: 2                       # Reason: 2 replicas = the app survives one pod dying (availability).
+  replicas: 3                       # Reason: 2 replicas = the app survives one pod dying (availability).
   selector:
     matchLabels: { app: sre-lab-app }
   template:
