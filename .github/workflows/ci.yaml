@@ -1,0 +1,39 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest          # Reason: GitHub-hosted runner; amd64 (note this vs your arm64 Mac).
+    permissions:
+      contents: read
+      packages: write               # Reason: needed to push to GHCR.
+    steps:
+      - uses: actions/checkout@v4    # Reason: clone the repo into the runner.
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Install deps & test    # Reason: the "I" in CI — integrate only if tests pass.
+        run: |
+          pip install -r app/requirements.txt
+          cd app && pytest -q
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}   # Reason: auto-provided token, no secret to manage.
+
+      - name: Build & push (multi-arch)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./app
+          push: true
+          # Reason: build BOTH arches — amd64 for cloud, arm64 for your Mac's minikube.
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/sre-lab-app:latest
+            ghcr.io/${{ github.repository_owner }}/sre-lab-app:${{ github.sha }}
