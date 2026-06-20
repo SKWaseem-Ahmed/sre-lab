@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sre-lab-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/skwaseem-ahmed/sre-lab.git
+    targetRevision: main
+    path: k8s/base                # Reason: ArgoCD applies whatever manifests live here.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }   # Reason: auto-sync + self-heal = true GitOps.
+    syncOptions: [CreateNamespace=true]
