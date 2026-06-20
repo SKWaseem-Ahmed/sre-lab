@@ -1,0 +1,7 @@
+{
+  "products": [
+    { "id": 1, "name": "Visa Classic",   "tier": "standard", "annual_fee": 0 },
+    { "id": 2, "name": "Visa Gold",       "tier": "premium",  "annual_fee": 95 },
+    { "id": 3, "name": "Visa Infinite",   "tier": "elite",    "annual_fee": 495 }
+  ]
+}
