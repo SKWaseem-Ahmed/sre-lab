@@ -30,7 +30,7 @@ jobs:
       - name: Build & push (multi-arch)
         uses: docker/build-push-action@v6
         with:
-          context: ./app
+          context: .
           push: true
           # Reason: build BOTH arches — amd64 for cloud, arm64 for your Mac's minikube.
           platforms: linux/amd64,linux/arm64
