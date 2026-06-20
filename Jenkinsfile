@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Test') {
       // Reason: same gate as GitHub Actions — never ship code that fails tests.
-      steps { sh 'cd app && pip install -r requirements.txt && pytest -q' }
+      steps { sh 'pip install -r requirements.txt && pytest -q' }
     }
     stage('Build') {
       // Reason: build the image. In-cluster builds usually use Kaniko (no Docker daemon needed);
